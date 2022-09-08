@@ -7,7 +7,7 @@ import { topics } from "../utils/constants";
 const Discover = () => {
   const router = useRouter();
   const { topic } = router.query;
-  const largeScreen = useMediaQuery("(min-width: 900px)");
+  const largeScreen = useMediaQuery("(min-width: 1280px)");
   return (
     <Stack align="center">
       <p className="text-gray-500 font-semibold m-3 mt-4 hidden xl:block">

@@ -512,6 +512,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tabler/icons@^1.94.0":
+  version "1.94.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.94.0.tgz#c0630361f69ec67121da48d694630acc6e6963b9"
+  integrity sha512-yM2lfFjZWRDmPoP3KUdwguls1M2nLzuxrADaM0oBr151wTCOeAcc6KRMV4It4wLt5R3HdxgFHv//IWLgLODhlg==
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
@@ -3018,3 +3023,10 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.1.1.tgz#5a61cc755a002df5f041840a414ae6e9a99ee22b"
+  integrity sha512-h4F3WMqsZgvvaE0n3lThx4MM81Ls9xebjvrABNzf5+jb3/03YjNTSgZXeyrvXDArMeV9untvWXRw1tY+ntPYbA==
+  dependencies:
+    use-sync-external-store "1.2.0"
