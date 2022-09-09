@@ -1,17 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createOrGetUser } from "../utils";
-import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
-import useAuthStore from '../store/authStore'
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  googleLogout,
+} from "@react-oauth/google";
+import useAuthStore from "../store/authStore";
 import { Avatar, Button, Text } from "@mantine/core";
-import { IconLogout, IconUpload } from '@tabler/icons';
+import { IconLogout, IconUpload } from "@tabler/icons";
 
 const Navbar = () => {
   const onFailure = (response: any) => {
     console.log("FAILED", response);
   };
-  const { userProfile, addUser, removeUser } = useAuthStore()
+  const { userProfile, addUser, removeUser } = useAuthStore();
+  const [userProfileInfo, setuserProfile] = useState(userProfile);
+  useEffect(() => {
+    setuserProfile(userProfile);
+  }, [userProfile]);
   return (
     <GoogleOAuthProvider
       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}`}
@@ -31,7 +39,7 @@ const Navbar = () => {
         </Link>
         <div>Search</div>
         <div>
-          {userProfile ? (
+          {userProfileInfo ? (
             <div className="flex gap-5 md:gap-10">
               <Link href="/upload">
                 <Button leftIcon={<IconUpload />} variant="white">
@@ -39,24 +47,31 @@ const Navbar = () => {
                 </Button>
               </Link>
               <div className="flex gap-3 md:gap-5 items-center">
-                {userProfile.image && (
-                  <Avatar src={`${userProfile.image}`} className="cursor-pointer" alt="it's me" />
+                {userProfileInfo.image && (
+                  <Avatar
+                    src={`${userProfileInfo.image}`}
+                    className="cursor-pointer"
+                    alt="it's me"
+                  />
                 )}
-                {userProfile.userName && (
-                  <Text size="md"> {userProfile.userName}</Text>
+                {userProfileInfo.userName && (
+                  <Text size="md"> {userProfileInfo.userName}</Text>
                 )}
               </div>
-              <Button leftIcon={<IconLogout />} variant="white" color="red" onClick={
-                () => {
+              <Button
+                leftIcon={<IconLogout />}
+                variant="white"
+                color="red"
+                onClick={() => {
                   googleLogout();
                   removeUser();
-                }
-              } />
+                }}
+              />
             </div>
           ) : (
             <GoogleLogin
               onSuccess={(response) => createOrGetUser(response, addUser)}
-              onError={() => { }}
+              onError={() => {}}
             />
           )}
         </div>

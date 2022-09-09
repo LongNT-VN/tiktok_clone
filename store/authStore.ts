@@ -8,16 +8,22 @@ interface IUser {
   image: string;
 }
 
-const authStore = (set: any) => ({
-  userProfile: null,
-  addUser: (user: IUser) => set({ userProfile: user }),
-  removeUser: () => set({ userProfile: null }),
-});
+interface authStore {
+  userProfile?: null | IUser;
+  addUser: (user: IUser) => void;
+  removeUser: () => void;
+}
 
-const useAuthStore = create(
-  persist(authStore, {
-    name: "auth",
-  })
+const useAuthStore = create<authStore>()(
+  persist(
+    (set) => ({
+      userProfile: null,
+      addUser: (user: IUser) => set({ userProfile: user }),
+      removeUser: () => set({ userProfile: null }),
+    }),
+    {
+      name: "auth",
+    }
+  )
 );
-
 export default useAuthStore;
