@@ -13,30 +13,63 @@ import {
 import { useForm } from "@mantine/form";
 import { IconCloudUpload } from "@tabler/icons";
 import React, { useState, useRef } from "react";
+import { SanityAssetDocument } from "@sanity/client";
+import { client } from "../utils/client";
+import { topics } from "../utils/constants";
+import useAuthStore from "../store/authStore";
+import axios from "axios";
+import Router from "next/router";
 
 const Upload = () => {
-  const [files, setFiles] = useState<File[]>([]);
+  const { userProfile } = useAuthStore();
+  const [file, setFiles] = useState<File | null>(null);
   const resetRef = useRef<() => void>(null);
+  const [fileUploaded, setFileUploaded] = useState<SanityAssetDocument | null>(null);
+  const [isUploaded, setIsUploaded] = useState(false)
   const clearFile = () => {
-    setFiles([]);
+    setFiles(null);
+    setFileUploaded(null);
     resetRef.current?.();
-    form.setFieldValue("videos", []);
+    form.setFieldValue("video", null);
   };
+  interface Post {
+    caption: string;
+    video: SanityAssetDocument | null;
+    topic: string;
+  }
   const form = useForm({
     initialValues: {
       caption: "",
-      thumbnail: "",
-      videos: files,
-      access: "",
+      video: fileUploaded,
+      topic: "",
     },
     validate: {
-      caption: (value) => (value ? null : "Invalid email"),
-      thumbnail: (value) => (value ? null : "Invalid thumbnail"),
-      videos: (value) => (value ? null : "Invalid video"),
-      access: (value) => (value ? null : "Invalid access"),
+      caption: (value) => (value ? null : "Missing caption"),
+      video: (value: SanityAssetDocument) => (value ? null : "Missing video"),
+      topic: (value) => (value ? null : "Missing topic"),
     },
   });
-
+  const onSubmitPost = async (value: Post) => {
+    const document = {
+      _type: "post",
+      caption: value.caption,
+      video: {
+        _type: 'file',
+        asset: {
+          _type: 'reference',
+          _ref: value.video?._id
+        }
+      },
+      userId: userProfile?._id,
+      postedBy: {
+        _type: 'postedBy',
+        _ref: userProfile?._id,
+      },
+      topic: value.topic
+    }
+    await axios.post('http://localhost:3000/api/post', document);
+    Router.push('/')
+  }
   return (
     <Stack>
       <Stack>
@@ -45,7 +78,7 @@ const Upload = () => {
         </Text>
         <Text size="xl">Upload your video to Tiktok</Text>
       </Stack>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit(onSubmitPost)}>
         <Group spacing="xl" align="flex-start">
           <Card
             shadow="sm"
@@ -78,42 +111,54 @@ const Upload = () => {
               <Group position="center">
                 <FileButton
                   resetRef={resetRef}
-                  onChange={(files) => {
-                    console.log(files);
-                    setFiles(files);
-                    form.setFieldValue("videos", files);
+                  onChange={(file) => {
+                    setIsUploaded(true)
+                    let temp: SanityAssetDocument;
+                    file && client.assets.upload('file', file, {
+                      contentType: file?.type,
+                      filename: file?.name
+                    }).then(data => {
+                      form.setFieldValue("video", data)
+                      setFileUploaded(data);
+                      setIsUploaded(false)
+                    })
+                    setFiles(file);
                   }}
                   accept="video/mpeg, video/mp4"
-                  multiple
                 >
                   {(props) => <Button {...props}>Upload image</Button>}
                 </FileButton>
                 <Button
-                  disabled={!files.length}
+                  disabled={!file}
                   color="red"
                   onClick={() => {
                     clearFile();
-                    form.setFieldValue("videos", []);
+                    form.setFieldValue("video", null);
                   }}
                 >
                   Reset
                 </Button>
               </Group>
-              {files.length > 0 && (
-                <Text size="sm" mt="sm">
-                  Picked files:
-                </Text>
-              )}
-              <SimpleGrid cols={2}>
-                {files.map((file) => (
-                  <video
-                    className="lg:w[300px] h-[150px] md:h-[260px] w-[130px] rouded-2xl cursor-pointer bg-gray-100"
-                    src={`${file.name}`}
-                    key={`${file.name}`}
-                    loop
-                  />
-                ))}
-              </SimpleGrid>
+              {
+                isUploaded ? <Text>Uploading</Text> :
+                  fileUploaded && (
+                    <Stack align="center">
+                      <Text size="sm" mt="sm">
+                        Picked files:
+                      </Text>
+
+                      <video
+                        className="lg:w[300px] h-[150px] md:h-[260px] w-[130px] rouded-2xl cursor-pointer bg-gray-100"
+                        src={`${fileUploaded.url}`}
+                        key={`${fileUploaded.url}`}
+                        loop
+                        controls
+                      />
+                    </Stack>
+                  )
+              }
+
+
             </Stack>
           </Card>
           <Stack justify="space-around">
@@ -122,29 +167,20 @@ const Upload = () => {
               placeholder="My video"
               {...form.getInputProps("caption")}
             />
-            <TextInput
-              label="Thumbnail"
-              placeholder="Thumbnail"
-              {...form.getInputProps("thumbnail")}
-            />
             <Select
-              label="Who will watching this video?"
+              label="Choose your video topic"
               placeholder="Pick one"
-              data={[
-                { value: "private", label: "Privite" },
-                { value: "friend", label: "Friend" },
-                { value: "public", label: "Public" },
-              ]}
-              {...form.getInputProps("access")}
+              data={topics.map((topic) => topic.name)}
+              {...form.getInputProps("topic")}
             />
             <Group position="center">
               <Button color="red">Cancel</Button>
               <Button type="submit">Post</Button>
             </Group>
           </Stack>
-        </Group>
-      </form>
-    </Stack>
+        </Group >
+      </form >
+    </Stack >
   );
 };
 
