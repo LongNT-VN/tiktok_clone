@@ -5,6 +5,8 @@ import { Video } from "../types";
 import { GoVerified } from "react-icons/go";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+import { Avatar, Container, Group, Text } from "@mantine/core";
+import TogleButton from "./TogleButton";
 
 interface IProps {
   post: Video;
@@ -28,76 +30,79 @@ const VideoCard = ({ post }: IProps) => {
   };
 
   return (
-    <div className="flex flex-col border-b-2 border-gray-200 pb-6">
-      <div>
-        <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
-          <div className="md:w-16 md:h-16 w-10 h-10">
-            <Link href="/">
-              <>
-                <Image
-                  width={62}
-                  height={62}
-                  className="rounded-full"
-                  src={post.postedBy.image}
-                  alt="profile photo"
-                  layout="responsive"
-                />
-              </>
-            </Link>
-          </div>
-          <div>
-            <Link href="/">
-              <div className="flex item-center gap-2">
-                <p className="flex gap-2 items-center md:text-md font-bold text-primary">
-                  {post.postedBy.userName}
-                  <GoVerified className="text-blue-400 text-md" />
-                </p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-      {post.caption}
-      <div className="lg:ml-20 flex gap-4 relative">
-        <div
+    <Container
+      className="flex flex-col border-b-2 border-gray-200 pb-6"
+      sx={{ margin: 0 }}
+    >
+      <Group className="p-2 mt-5">
+        <Avatar
+          size={62}
+          className="rounded-full"
+          src={post.postedBy.image}
+          alt="profile photo"
+          component="a"
+          href="/"
+        />
+        <Group>
+          <Link href="/">
+            <Text
+              size="lg"
+              align="center"
+              weight={700}
+              className="cursor-pointer"
+            >
+              {post.postedBy.userName}
+            </Text>
+          </Link>
+          <GoVerified className="text-blue-400 text-md" />
+        </Group>
+      </Group>
+      <Text size="lg" className="my-2">
+        {post.caption}
+      </Text>
+      <Container className="lg:ml-20 flex gap-4" sx={{ margin: 0 }}>
+        <Container
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
-          className="rouded-3xl"
+          className="relative"
+          sx={{ margin: 0 }}
         >
-          <Link href="/">
+          <Link href={`video/${post._id}`}>
             <video
               loop
               ref={videoRef}
-              className="lg:w[600px] h-[300px] md:h-[530px] w-[200px] rouded-2xl cursor-pointer bg-gray-100"
+              className="lg:w-[600px] h-[300px] lg:h-[530px] w-[200px] rounded-3xl cursor-pointer bg-gray-100"
               src={post.video.asset.url}
               muted={isMuted}
             ></video>
           </Link>
+
           {isHover && (
-            <div className="absolute bottom-6 cursor-pointer left 8 md: left-14 lg: left-10 flex gap-10 lg:justify-between ">
-              {isPlaying ? (
-                <button onClick={onVideoPlay}>
-                  <BsFillPauseFill className="text-black text-2xl lg: text-4xl" />
-                </button>
-              ) : (
-                <button onClick={onVideoPlay}>
-                  <BsFillPlayFill className="text-black text-2xl lg: text-4xl" />
-                </button>
-              )}
-              {isMuted ? (
-                <button onClick={() => setIsMuted(false)}>
-                  <HiVolumeOff className="text-black text-2xl lg: text-4xl" />
-                </button>
-              ) : (
-                <button onClick={() => setIsMuted(true)}>
-                  <HiVolumeUp className="text-black text-2xl lg: text-4xl" />
-                </button>
-              )}
-            </div>
+            <Group
+              className="absolute left-0 bottom-2 w-full"
+              position="center"
+            >
+              <TogleButton
+                opened={isPlaying}
+                setOpened={onVideoPlay}
+                iconAfter={BsFillPlayFill}
+                iconBefore={BsFillPauseFill}
+                color="black"
+                size="md"
+              />
+              <TogleButton
+                opened={isMuted}
+                setOpened={setIsMuted}
+                iconAfter={HiVolumeUp}
+                iconBefore={HiVolumeOff}
+                color="black"
+                size="md"
+              />
+            </Group>
           )}
-        </div>
-      </div>
-    </div>
+        </Container>
+      </Container>
+    </Container>
   );
 };
 
