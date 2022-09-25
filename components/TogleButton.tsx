@@ -1,4 +1,5 @@
 import { ActionIcon, MantineNumberSize } from "@mantine/core";
+import { TablerIcon } from "@tabler/icons";
 import React, { useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { IconType } from "react-icons/lib";
@@ -13,12 +14,12 @@ const TogleButton = ({
 }: {
   opened: boolean;
   setOpened: Function;
-  iconBefore: IconType;
-  iconAfter: IconType;
+  iconBefore: IconType | TablerIcon;
+  iconAfter: IconType | TablerIcon;
   color: string;
-  size?: MantineNumberSize;
+  size?: number;
 }) => {
-  const Icon: IconType = opened ? iconBefore : iconAfter;
+  const Icon = opened ? iconBefore : iconAfter;
   return (
     <ActionIcon
       size={size}

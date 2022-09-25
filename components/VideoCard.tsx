@@ -88,7 +88,7 @@ const VideoCard = ({ post }: IProps) => {
                 iconAfter={BsFillPlayFill}
                 iconBefore={BsFillPauseFill}
                 color="black"
-                size="md"
+                size={26}
               />
               <TogleButton
                 opened={isMuted}
@@ -96,7 +96,7 @@ const VideoCard = ({ post }: IProps) => {
                 iconAfter={HiVolumeUp}
                 iconBefore={HiVolumeOff}
                 color="black"
-                size="md"
+                size={26}
               />
             </Group>
           )}
