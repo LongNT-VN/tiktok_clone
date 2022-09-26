@@ -7,6 +7,7 @@ import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import { Avatar, Container, Group, Text } from "@mantine/core";
 import TogleButton from "./TogleButton";
+import AvatarAndName from "./AvatarAndName";
 
 interface IProps {
   post: Video;
@@ -34,29 +35,13 @@ const VideoCard = ({ post }: IProps) => {
       className="flex flex-col border-b-2 border-gray-200 pb-6"
       sx={{ margin: 0 }}
     >
-      <Group className="p-2 mt-5">
-        <Avatar
-          size={62}
-          className="rounded-full"
-          src={post.postedBy.image}
-          alt="profile photo"
-          component="a"
-          href="/"
-        />
-        <Group>
-          <Link href="/">
-            <Text
-              size="lg"
-              align="center"
-              weight={700}
-              className="cursor-pointer"
-            >
-              {post.postedBy.userName}
-            </Text>
-          </Link>
-          <GoVerified className="text-blue-400 text-md" />
-        </Group>
-      </Group>
+      <AvatarAndName
+        image={post?.postedBy?.image}
+        name={post?.postedBy?.userName}
+        size="lg"
+        fontSize={700}
+        className="mt-8"
+      />
       <Text size="lg" className="my-2">
         {post.caption}
       </Text>

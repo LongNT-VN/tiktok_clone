@@ -90,6 +90,15 @@ export const searchPostsQuery = (searchTerm: string | string[]) => {
   return query;
 };
 
+export const searchUsersQuery = (searchTerm: string | string[]) => {
+  const query = `*[_type == "user" && userName match '${searchTerm}*'] {
+        _id,
+        userName,
+        image
+    }`;
+  return query;
+};
+
 export const singleUserQuery = (userId: string | string[]) => {
   const query = `*[_type == "user" && _id == '${userId}']`;
 

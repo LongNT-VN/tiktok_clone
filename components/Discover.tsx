@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mantine/core";
+import { Button, Container, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,11 +9,15 @@ const Discover = () => {
   const { topic } = router.query;
   const largeScreen = useMediaQuery("(min-width: 1280px)");
   return (
-    <Stack align="center">
-      <p className="text-gray-500 font-semibold m-3 mt-4 hidden xl:block">
+    <Stack align={largeScreen ? "left" : "center"} className="py-6 border-y-2 border-slate-200">
+      <Text weight={700} className="hidden xl:block">
         Popular Topics
-      </p>
-      <div className="flex gap-3 flex-wrap">
+      </Text>
+      <Container
+        className={`flex gap-3 flex-wrap ${
+          !largeScreen && "justify-around"
+        } px-0 m-0`}
+      >
         {topics?.map((item) => (
           <Link href={`/?topic=${item.name}`} key={item.name}>
             <Button
@@ -27,7 +31,7 @@ const Discover = () => {
             </Button>
           </Link>
         ))}
-      </div>
+      </Container>
     </Stack>
   );
 };

@@ -1,11 +1,36 @@
-import React from 'react'
+import { Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import React from "react";
+import { IUser } from "../types";
+import AvatarAndName from "./AvatarAndName";
 
-const SuggestAccounts = () => {
-  return (
-    <div className='xl:border-b-2 border-gray-200 pb-4'>
-      SuggestAccounts
-    </div>
-  )
+interface IProps {
+  suggestAccounts: IUser[];
 }
 
-export default SuggestAccounts
+const SuggestAccounts = ({ suggestAccounts }: IProps) => {
+  const largeScreen = useMediaQuery("(min-width: 1280px)");
+  return (
+    <Stack
+      align={largeScreen ? "start" : "center"}
+      justify="stretch"
+    >
+      <Text weight={700} className="hidden xl:block">
+        Suggestion account
+      </Text>
+      {suggestAccounts.length &&
+        suggestAccounts.map((suggestAccount, index) => (
+          <AvatarAndName
+            key={index}
+            image={suggestAccount?.image}
+            name={suggestAccount?.userName}
+            size="md"
+            hasResponsive
+            fontSize={500}
+          />
+        ))}
+    </Stack>
+  );
+};
+
+export default SuggestAccounts;
