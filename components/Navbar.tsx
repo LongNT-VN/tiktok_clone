@@ -59,6 +59,7 @@ const Navbar = () => {
               <AvatarAndName
                 image={userProfile?.image}
                 name={userProfile?.userName}
+                id={userProfile?._id}
                 hasResponsive
                 size="md"
                 fontSize={500}

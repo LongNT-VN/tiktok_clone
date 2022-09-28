@@ -1,9 +1,7 @@
 import {
   ActionIcon,
-  Avatar,
   Container,
   Group,
-  Stack,
   Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -32,7 +30,7 @@ const DetailPage = ({ postDetail }: IProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPostingComment, setIsPostingComment] = useState(false);
-  const { userProfile, addUser } = useAuthStore();
+  const { userProfile } = useAuthStore();
   const [liked, setLiked] = useState(!!postDetail?.likes?.filter(like => like?.postedBy?._id == userProfile?._id));
   const [loggedin, setLoggedIn] = useState(!!userProfile)
   const onVideoPlay = () => {
@@ -136,7 +134,13 @@ const DetailPage = ({ postDetail }: IProps) => {
         sx={{ maxWidth: "100%", padding: "16px" }}
       >
         <Container sx={{ margin: 0 }}>
-          <AvatarAndName image={post?.postedBy?.image} name={post?.postedBy?.userName} size="lg" fontSize={700} className="mt-8" />
+          <AvatarAndName
+            image={post?.postedBy?.image}
+            name={post?.postedBy?.userName}
+            id={post?.postedBy?._id}
+            size="lg"
+            fontSize={700}
+            className="mt-8" />
           <Text size="lg" className="mt-5">
             {post.caption}
           </Text>

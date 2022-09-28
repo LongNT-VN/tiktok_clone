@@ -14,6 +14,7 @@ const SuggestAccounts = ({ suggestAccounts }: IProps) => {
     <Stack
       align={largeScreen ? "start" : "center"}
       justify="stretch"
+      className="my-6"
     >
       <Text weight={700} className="hidden xl:block">
         Suggestion account
@@ -24,6 +25,7 @@ const SuggestAccounts = ({ suggestAccounts }: IProps) => {
             key={index}
             image={suggestAccount?.image}
             name={suggestAccount?.userName}
+            id={suggestAccount?._id}
             size="md"
             hasResponsive
             fontSize={500}

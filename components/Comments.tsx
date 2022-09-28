@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { IconBrandTwitter } from "@tabler/icons";
+import { IconBrandTwitter, IconMessageOff } from "@tabler/icons";
 import React from "react";
 import { IUser } from "../types";
 import AvatarAndName from "./AvatarAndName";
@@ -68,17 +68,18 @@ const Comments = ({
                 <AvatarAndName
                   image={comment?.postedBy?.image}
                   name={comment?.postedBy?.userName}
+                  id={comment?.postedBy?._id}
                   size="md"
                   fontSize={500}
                   className="mt-8"
                 />
-                <Group grow spacing="xl" className="bg-slate-50 rounded p-3 md:mx-4 lg:mx-8 my-2">
+                <Group grow spacing="xl" className="bg-slate-50 rounded p-3 md:mx-4 xl:mx-8 my-2">
                   <Text>{comment.comment}</Text>
                 </Group>
               </Container>
             ))
           ) : (
-            <NoResult text={"No comment"} />
+            <NoResult text={"No comment"} Icon={IconMessageOff} />
           )}
         </Container>
       </ScrollArea>

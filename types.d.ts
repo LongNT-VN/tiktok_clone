@@ -37,3 +37,9 @@ export interface IUser {
   userName: string;
   image: string;
 }
+
+export interface ITopic {
+  _id: string,
+  name: string;
+  icon: string;
+}

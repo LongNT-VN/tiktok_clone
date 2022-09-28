@@ -4,7 +4,6 @@ import {
   FileButton,
   Group,
   Select,
-  SimpleGrid,
   Stack,
   Text,
   TextInput,
@@ -146,9 +145,8 @@ const Upload = () => {
                       <Text size="sm" mt="sm">
                         Picked files:
                       </Text>
-
                       <video
-                        className="lg:w[300px] h-[150px] md:h-[260px] w-[130px] rouded-2xl cursor-pointer bg-gray-100"
+                        className="xl:w[300px] h-[150px] md:h-[260px] w-[130px] rouded-2xl cursor-pointer bg-gray-100"
                         src={`${fileUploaded.url}`}
                         key={`${fileUploaded.url}`}
                         loop
@@ -157,8 +155,6 @@ const Upload = () => {
                     </Stack>
                   )
               }
-
-
             </Stack>
           </Card>
           <Stack justify="space-around">

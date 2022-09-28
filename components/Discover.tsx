@@ -9,14 +9,14 @@ const Discover = () => {
   const { topic } = router.query;
   const largeScreen = useMediaQuery("(min-width: 1280px)");
   return (
-    <Stack align={largeScreen ? "left" : "center"} className="py-6 border-y-2 border-slate-200">
+    <Stack align={largeScreen ? "left" : "center"}>
+      <Text className="border-t-2 border-slate-200 w-9/12 m-auto mb-2"></Text>
       <Text weight={700} className="hidden xl:block">
         Popular Topics
       </Text>
       <Container
-        className={`flex gap-3 flex-wrap ${
-          !largeScreen && "justify-around"
-        } px-0 m-0`}
+        className={`flex gap-3 flex-wrap ${!largeScreen && "justify-around"
+          } px-0 m-0`}
       >
         {topics?.map((item) => (
           <Link href={`/?topic=${item.name}`} key={item.name}>
@@ -32,6 +32,7 @@ const Discover = () => {
           </Link>
         ))}
       </Container>
+      <Text className="border-b-2  border-slate-200 w-9/12 m-auto mt-2"></Text>
     </Stack>
   );
 };

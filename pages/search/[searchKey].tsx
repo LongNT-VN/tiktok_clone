@@ -1,5 +1,5 @@
-import { Container, Group, Tabs } from "@mantine/core";
-import { IconUser, IconVideo } from "@tabler/icons";
+import { Group, Tabs } from "@mantine/core";
+import { IconUser, IconUserOff, IconVideo, IconVideoOff } from "@tabler/icons";
 import axios from "axios";
 import React from "react";
 import AvatarAndName from "../../components/AvatarAndName";
@@ -26,20 +26,21 @@ const Search = ({ videos, users }: IProps) => {
         </Tabs.List>
         <Tabs.Panel value="videos" pt="xs">
           {videos.length == 0 ? (
-            <NoResult text="No results"></NoResult>
+            <NoResult text="No results" Icon={IconVideoOff}></NoResult>
           ) : (
             videos.map((video, index) => <VideoCard key={index} post={video} />)
           )}
         </Tabs.Panel>
         <Tabs.Panel value="users" pt="xs">
           {users.length == 0 ? (
-            <NoResult text="No results"></NoResult>
+            <NoResult text="No results" Icon={IconUserOff}></NoResult>
           ) : (
             users.map((user, index) => (
               <AvatarAndName
                 key={index}
                 image={user?.image}
                 name={user?.userName}
+                id={user?._id}
                 size="lg"
                 fontSize={700}
                 className="py-4 border-b-2 border-gray-300"
