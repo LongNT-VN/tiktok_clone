@@ -10,6 +10,7 @@ import AvatarAndName from "./AvatarAndName";
 import SearchBar from "./SearchBar";
 import router from "next/router";
 import { useForm } from "@mantine/form";
+import { BASE_URL } from "../utils";
 
 const Navbar = () => {
   const { userProfile, removeUser } = useAuthStore();
@@ -28,7 +29,7 @@ const Navbar = () => {
   }
   const onSubmitSearch = async (value: Search) => {
     if (value.searchKey) {
-      router.push(`/search/${value.searchKey}`);
+      await router.push(`${BASE_URL}/search/${value.searchKey}`);
     }
     value.searchKey = "";
   };

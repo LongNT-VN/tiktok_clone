@@ -18,6 +18,7 @@ import { topics } from "../utils/constants";
 import useAuthStore from "../store/authStore";
 import axios from "axios";
 import Router from "next/router";
+import { BASE_URL } from "../utils";
 
 const Upload = () => {
   const { userProfile } = useAuthStore();
@@ -66,7 +67,7 @@ const Upload = () => {
       },
       topic: value.topic
     }
-    await axios.post('http://localhost:3000/api/post', document);
+    await axios.post(`${BASE_URL}/api/post`, document);
     Router.push('/')
   }
   return (

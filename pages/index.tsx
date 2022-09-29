@@ -4,6 +4,7 @@ import axios from 'axios'
 import NoResult from '../components/NoResult'
 import VideoCard from '../components/VideoCard'
 import { Video } from '../types'
+import { BASE_URL } from '../utils'
 
 
 interface IProps {
@@ -25,9 +26,9 @@ export const getServerSideProps = async ({
 }: {
   query: { topic: string };
 }) => {
-  let api = 'http://localhost:3000/api/post'
+  let api = `${BASE_URL}/api/post`
   if (topic) {
-    api = `http://localhost:3000/api/post/discover/${topic}`
+    api = `${BASE_URL}/api/post/discover/${topic}`
   }
   const { data } = await axios.get(api)
   return {

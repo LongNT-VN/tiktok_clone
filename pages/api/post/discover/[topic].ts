@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { topic } = req.query;
-    if (!topic) return res.status(400).json("Missing topic query");
+    if (!topic) return res.status(400).json({ error: "Missing topic query" });
     const query = topicPostsQuery(topic);
     const data = await client.fetch(query);
     return res.status(200).json(data);

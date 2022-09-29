@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const { id } = req.query;
-    if (!id) return res.status(400).json("Missing user id");
+    if (!id) return res.status(400).json({ error: "Missing user id" });
     const query = userCreatedPostsQuery(id);
     const data = await client.fetch(query);
     return res.status(200).json(data);

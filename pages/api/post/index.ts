@@ -14,6 +14,6 @@ export default async function handler(
   if (req.method === "POST") {
     const post = req.body;
     await client.create(post);
-    return res.status(200).json("Video created");
+    return res.status(200).json({ info: "Video created" });
   }
 }

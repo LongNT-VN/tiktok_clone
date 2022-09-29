@@ -9,12 +9,13 @@ import { ActionIcon, Group, Stack, Text } from "@mantine/core";
 import axios from "axios";
 import { IUser } from "../types";
 import { useMediaQuery } from "@mantine/hooks";
+import { BASE_URL } from "../utils";
 const Sidebar = () => {
   const { pathname } = useRouter();
   const [suggestAccounts, setSuggestAccounts] = useState<IUser[]>([]);
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get("http://localhost:3000/api/user/");
+      const { data } = await axios.get(`${BASE_URL}/api/user/`);
       setSuggestAccounts(data);
     })();
   }, []);

@@ -6,6 +6,7 @@ import AvatarAndName from "../../components/AvatarAndName";
 import NoResult from "../../components/NoResult";
 import VideoCard from "../../components/VideoCard";
 import { IUser, Video } from "../../types";
+import { BASE_URL } from "../../utils";
 
 interface IProps {
   videos: Video[];
@@ -58,7 +59,7 @@ export const getServerSideProps = async ({
 }: {
   params: { searchKey: string };
 }) => {
-  const encodedURI = encodeURI(`http://localhost:3000/api/search/${searchKey}`);
+  const encodedURI = encodeURI(`${BASE_URL}/api/search/${searchKey}`);
 
   const { data } = await axios.get(encodedURI);
   return {

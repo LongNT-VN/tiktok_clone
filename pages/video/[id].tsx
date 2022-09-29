@@ -17,6 +17,7 @@ import AvatarAndName from "../../components/AvatarAndName";
 import TogleButton from "../../components/TogleButton";
 import useAuthStore from "../../store/authStore";
 import { Video } from "../../types";
+import { BASE_URL } from "../../utils";
 const Comments = dynamic(() => import("../../components/Comments"), { ssr: false });
 
 interface IProps {
@@ -48,7 +49,7 @@ const DetailPage = ({ postDetail }: IProps) => {
       like: !liked
     }
     setLiked(!liked);
-    const { data } = await axios.put(`http://localhost:3000/api/post/${post._id}/like`, document)
+    const { data } = await axios.put(`${BASE_URL}/api/post/${post._id}/like`, document)
     setPost({ ...post, likes: data.likes });
   };
   const handleLogin = () => setLoggedIn((open) => !open)
@@ -72,8 +73,8 @@ const DetailPage = ({ postDetail }: IProps) => {
         _ref: userProfile?._id,
       },
     }
-    await axios.put(`http://localhost:3000/api/post/${post._id}`, document)
-    const { data } = await axios.get(`http://localhost:3000/api/post/${post._id}`);
+    await axios.put(`${BASE_URL}/api/post/${post._id}`, document)
+    const { data } = await axios.get(`/api/post/${post._id}`);
     setPost(data);
     value.comment = ''
     setIsPostingComment(false);
@@ -180,7 +181,7 @@ export const getServerSideProps = async ({
 }: {
   params: { id: string };
 }) => {
-  const { data } = await axios.get(`http://localhost:3000/api/post/${id}`);
+  const { data } = await axios.get(`${BASE_URL}/api/post/${id}`);
   return {
     props: {
       postDetail: data,

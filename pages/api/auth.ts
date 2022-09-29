@@ -8,6 +8,6 @@ export default async function handler(
   if (req.method === "POST") {
     const user = req.body;
     await client.createIfNotExists(user);
-    return res.status(200).json("Login success");
+    return res.status(200).json({ info: "Login success" });
   }
 }

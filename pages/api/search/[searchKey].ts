@@ -8,7 +8,8 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const searchKey = req.query.searchKey;
-    if (!searchKey) return res.status(400).json("Missing search key");
+    if (!searchKey)
+      return res.status(400).json({ error: "Missing search key" });
     const queryPost = searchPostsQuery(searchKey);
     const queryUser = searchUsersQuery(searchKey);
     const posts = await client.fetch(queryPost);
