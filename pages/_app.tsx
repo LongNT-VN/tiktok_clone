@@ -18,9 +18,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <ScrollArea className="h-[92vh]" scrollbarSize={6}>
             <Sidebar />
           </ScrollArea>
-          <ScrollArea className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
+          <div className="mt-4 flex flex-col gap-10 overflow-auto h-[88vh] videos flex-1">
             <Component {...pageProps} />
-          </ScrollArea>
+          </div>
         </div>
       </div>
     </GoogleOAuthProvider>
