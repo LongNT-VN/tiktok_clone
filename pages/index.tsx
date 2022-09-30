@@ -1,11 +1,11 @@
-import { Stack } from '@mantine/core'
+import { LoadingOverlay, Stack } from '@mantine/core'
 import { IconVideoOff } from '@tabler/icons'
 import axios from 'axios'
 import NoResult from '../components/NoResult'
 import VideoCard from '../components/VideoCard'
 import { Video } from '../types'
 import { BASE_URL } from '../utils'
-
+import LazyLoad from 'react-lazyload'
 
 interface IProps {
   videos: Video[]
@@ -15,7 +15,9 @@ const Home = ({ videos }: IProps) => {
   return (
     <Stack className="m-0 p-0">
       {videos.length ? videos.map((video, index) => (
-        <VideoCard key={index} post={video} />
+        <LazyLoad key={index} placeholder={<LoadingOverlay visible overlayBlur={2} />}>
+          <VideoCard post={video} />
+        </LazyLoad>
       )) : <NoResult text="No result found" Icon={IconVideoOff} />}
     </Stack>
   )

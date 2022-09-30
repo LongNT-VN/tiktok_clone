@@ -26,6 +26,7 @@ interface IProps {
 
 const DetailPage = ({ postDetail }: IProps) => {
   const [post, setPost] = useState(postDetail);
+  const [quantityLiked, setQuantityLiked] = useState(post.likes.length)
   const [isHover, setIsHover] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -48,9 +49,9 @@ const DetailPage = ({ postDetail }: IProps) => {
       userId: userProfile?._id,
       like: !liked
     }
+    liked == true ? setQuantityLiked(quantityLiked - 1) : setQuantityLiked(quantityLiked + 1)
     setLiked(!liked);
-    const { data } = await axios.put(`${BASE_URL}/api/post/${post._id}/like`, document)
-    setPost({ ...post, likes: data.likes });
+    await axios.put(`${BASE_URL}/api/post/${post._id}/like`, document)
   };
   const handleLogin = () => setLoggedIn((open) => !open)
   const form = useForm({
@@ -154,7 +155,7 @@ const DetailPage = ({ postDetail }: IProps) => {
               color={!liked ? "black" : "red"}
               size={26}
             />
-            <Text size="sm">{!post.likes ? 0 : post?.likes?.length}</Text>
+            <Text size="sm">{quantityLiked}</Text>
             <ActionIcon variant="transparent">
               <FaCommentDots />
             </ActionIcon>

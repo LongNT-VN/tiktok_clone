@@ -3,6 +3,7 @@ import {
   Card,
   FileButton,
   Group,
+  LoadingOverlay,
   Select,
   Stack,
   Text,
@@ -86,35 +87,51 @@ const Upload = () => {
             radius="md"
             className="border-dashed border-2 border-sky-500 hover:border-red-500"
           >
-            <Stack align="center" justify="space-around">
-              <ThemeIcon
-                variant="outline"
-                size={50}
-                sx={{ "border-color": "transparent" }}
-              >
-                <IconCloudUpload size={50} />
-              </ThemeIcon>
-              <Stack>
-                <Text size="sm" color="dimmed" align="center">
-                  MP4 hoặc WebM
-                </Text>
-                <Text size="sm" color="dimmed" align="center">
-                  Độ phân giải 720x1280 trở lên
-                </Text>
-                <Text size="sm" color="dimmed" align="center">
-                  Tối đa 10 phút
-                </Text>
-                <Text size="sm" color="dimmed" align="center">
-                  Ít hơn 2 GB
-                </Text>
-              </Stack>
+            <Stack align="stretch" justify="space-around">
+              {
+                !fileUploaded && <Stack>
+                  <ThemeIcon
+                    variant="outline"
+                    size={50}
+                    sx={{ "border-color": "transparent", "margin": "auto" }}
+                  >
+                    <IconCloudUpload size={50} />
+                  </ThemeIcon>
+                  <Text size="sm" color="dimmed" align="center">
+                    MP4 hoặc WebM
+                  </Text>
+                  <Text size="sm" color="dimmed" align="center">
+                    Độ phân giải 720x1280 trở lên
+                  </Text>
+                  <Text size="sm" color="dimmed" align="center">
+                    Tối đa 10 phút
+                  </Text>
+                  <Text size="sm" color="dimmed" align="center">
+                    Ít hơn 2 GB
+                  </Text>
+                </Stack>
+              }
+              {
+                isUploaded ? <LoadingOverlay visible={isUploaded} overlayBlur={2} /> :
+                  fileUploaded && (
+                    <Group grow className="m-0 p-0 rounded">
+                      <video
+                        className="xl:w[280px] h-[250px] xl:h-[300px] w-[200px] rouded-2xl cursor-pointer bg-gray-100"
+                        src={`${fileUploaded.url}`}
+                        key={`${fileUploaded.url}`}
+                        loop
+                        controls
+                      />
+                    </Group>
+                  )
+              }
               <Group position="center">
                 <FileButton
                   resetRef={resetRef}
                   onChange={(file) => {
+                    if (!file) return;
                     setIsUploaded(true)
-                    let temp: SanityAssetDocument;
-                    file && client.assets.upload('file', file, {
+                    client.assets.upload('file', file, {
                       contentType: file?.type,
                       filename: file?.name
                     }).then(data => {
@@ -126,7 +143,7 @@ const Upload = () => {
                   }}
                   accept="video/mpeg, video/mp4"
                 >
-                  {(props) => <Button {...props}>Upload image</Button>}
+                  {(props) => <Button {...props}>Upload</Button>}
                 </FileButton>
                 <Button
                   disabled={!file}
@@ -139,23 +156,6 @@ const Upload = () => {
                   Reset
                 </Button>
               </Group>
-              {
-                isUploaded ? <Text>Uploading</Text> :
-                  fileUploaded && (
-                    <Stack align="center">
-                      <Text size="sm" mt="sm">
-                        Picked files:
-                      </Text>
-                      <video
-                        className="xl:w[300px] h-[150px] md:h-[260px] w-[130px] rouded-2xl cursor-pointer bg-gray-100"
-                        src={`${fileUploaded.url}`}
-                        key={`${fileUploaded.url}`}
-                        loop
-                        controls
-                      />
-                    </Stack>
-                  )
-              }
             </Stack>
           </Card>
           <Stack justify="space-around">
