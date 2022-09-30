@@ -1,7 +1,8 @@
-import { SimpleGrid, Stack } from '@mantine/core'
+import { Group, LoadingOverlay, SimpleGrid, Stack } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks';
 import axios from 'axios';
 import React from 'react'
+import LazyLoad from 'react-lazyload';
 import AvatarAndName from '../../components/AvatarAndName'
 import VideoCard from '../../components/VideoCard';
 import { IUser, Video } from '../../types';
@@ -25,7 +26,11 @@ const UserProfile = ({ profile, videos }: IProps) => {
                 className="mt-8"
             />
             <SimpleGrid cols={mediumScreen ? 3 : 1}>
-                {videos.map((video, index) => (<VideoCard key={index} post={video} isProfilePage />))}
+                {videos.map((video, index) => (
+                    <LazyLoad key={index} placeholder={<LoadingOverlay visible overlayBlur={2} />}>
+                        <VideoCard post={video} isProfilePage />
+                    </LazyLoad>
+                ))}
             </SimpleGrid>
         </Stack>
     )

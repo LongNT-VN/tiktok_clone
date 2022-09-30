@@ -29,11 +29,12 @@ const Search = ({
             color="dark"
             variant="filled"
             type="submit"
+            className="z-0"
           >
             <IconArrowRight size={18} stroke={1.5} />
           </ActionIcon>
         }
-        placeholder="Search questions"
+        placeholder="Search..."
         rightSectionWidth={42}
         {...form.getInputProps("searchKey")}
         className="hidden md:block"

@@ -3,6 +3,7 @@ import {
   Container,
   Group,
   Input,
+  LoadingOverlay,
   ScrollArea,
   Stack,
   Text,
@@ -10,6 +11,7 @@ import {
 import { UseFormReturnType } from "@mantine/form";
 import { IconBrandTwitter, IconMessageOff } from "@tabler/icons";
 import React from "react";
+import LazyLoad from "react-lazyload";
 import { IUser } from "../types";
 import AvatarAndName from "./AvatarAndName";
 import LoginDialog from "./LoginDialog";
@@ -64,19 +66,21 @@ const Comments = ({
         <Container sx={{ margin: 0 }}>
           {comments && comments?.length >= 0 ? (
             comments.map((comment, index) => (
-              <Container key={index}>
-                <AvatarAndName
-                  image={comment?.postedBy?.image}
-                  name={comment?.postedBy?.userName}
-                  id={comment?.postedBy?._id}
-                  size="md"
-                  fontSize={500}
-                  className="mt-8"
-                />
-                <Group grow spacing="xl" className="bg-slate-50 rounded p-3 md:mx-4 xl:mx-8 my-2">
-                  <Text>{comment.comment}</Text>
-                </Group>
-              </Container>
+              <LazyLoad key={index} placeholder={<LoadingOverlay visible overlayBlur={2} />}>
+                <Container>
+                  <AvatarAndName
+                    image={comment?.postedBy?.image}
+                    name={comment?.postedBy?.userName}
+                    id={comment?.postedBy?._id}
+                    size="md"
+                    fontSize={500}
+                    className="mt-8"
+                  />
+                  <Group grow spacing="xl" className="bg-slate-50 rounded p-3 md:mx-4 xl:mx-8 my-2">
+                    <Text>{comment.comment}</Text>
+                  </Group>
+                </Container>
+              </LazyLoad>
             ))
           ) : (
             <NoResult text={"No comment"} Icon={IconMessageOff} />
