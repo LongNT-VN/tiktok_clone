@@ -26,7 +26,7 @@ interface IProps {
 
 const DetailPage = ({ postDetail }: IProps) => {
   const [post, setPost] = useState(postDetail);
-  const [quantityLiked, setQuantityLiked] = useState(post.likes.length)
+  const [quantityLiked, setQuantityLiked] = useState(!post.likes ? 0 : post?.likes?.length)
   const [isHover, setIsHover] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);

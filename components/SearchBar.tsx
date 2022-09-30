@@ -19,7 +19,6 @@ const Search = ({
   return (
     <form onSubmit={form.onSubmit(onSubmitSearch)}>
       <TextInput
-        icon={<IconSearch size={18} stroke={1.5} />}
         radius="xl"
         size="md"
         rightSection={
@@ -29,7 +28,6 @@ const Search = ({
             color="dark"
             variant="filled"
             type="submit"
-            className="z-0"
           >
             <IconArrowRight size={18} stroke={1.5} />
           </ActionIcon>
