@@ -13,11 +13,8 @@ export interface Video {
     image: string;
   };
   likes: {
-    postedBy: {
-      _id: string;
-      userName: string;
-      image: string;
-    };
+    _key: string;
+    _ref: string;
   }[];
   comments: {
     comment: string;
@@ -39,7 +36,7 @@ export interface IUser {
 }
 
 export interface ITopic {
-  _id: string,
+  _id: string;
   name: string;
   icon: string;
 }

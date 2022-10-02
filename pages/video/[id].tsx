@@ -9,7 +9,7 @@ import { IconHeart, IconXboxX } from "@tabler/icons";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsFillPauseFill, BsFillPlayFill } from "react-icons/bs";
 import { FaCommentDots } from "react-icons/fa";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
@@ -33,8 +33,19 @@ const DetailPage = ({ postDetail }: IProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const { userProfile } = useAuthStore();
-  const [liked, setLiked] = useState(!!postDetail?.likes?.filter(like => like?.postedBy?._id == userProfile?._id));
+  const [liked, setLiked] = useState(false);
   const [loggedin, setLoggedIn] = useState(!!userProfile)
+
+
+  useEffect(() => {
+    const alreadyLiked = post?.likes?.filter(like => console.log(like?._ref == userProfile?._id))
+    if (!alreadyLiked.length) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  }, [post, userProfile]);
+
   const onVideoPlay = () => {
     if (isPlaying) {
       videoRef?.current?.pause();
