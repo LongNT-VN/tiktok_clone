@@ -38,8 +38,8 @@ const DetailPage = ({ postDetail }: IProps) => {
 
 
   useEffect(() => {
-    const alreadyLiked = post?.likes?.filter(like => console.log(like?._ref == userProfile?._id))
-    if (!alreadyLiked.length) {
+    let alreadyLiked = post?.likes ? post?.likes.filter(like => like?._ref == userProfile?._id) : [];
+    if (alreadyLiked.length) {
       setLiked(true);
     } else {
       setLiked(false);
